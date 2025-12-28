@@ -22,8 +22,8 @@ from typing import Optional
 
 import pytest
 
-from arch_guard import ArchitectureGuard, ArchitectureViolation
-from arch_guard.adapters import AdaAdapter
+from shared.arch_guard import ArchitectureGuard, ArchitectureViolation
+from shared.arch_guard.adapters import AdaAdapter
 
 
 # =============================================================================

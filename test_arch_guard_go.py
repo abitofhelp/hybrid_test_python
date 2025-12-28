@@ -21,8 +21,8 @@ from typing import Optional
 
 import pytest
 
-from arch_guard import ArchitectureGuard, ArchitectureViolation
-from arch_guard.adapters import GoAdapter
+from shared.arch_guard import ArchitectureGuard, ArchitectureViolation
+from shared.arch_guard.adapters import GoAdapter
 
 
 # =============================================================================
@@ -584,7 +584,7 @@ func Bad() {
 @pytest.mark.smoke
 def test_arch_guard_module_imports():
     """Verify arch_guard module can be imported."""
-    import arch_guard
+    import shared.arch_guard as arch_guard
     assert hasattr(arch_guard, "ArchitectureGuard")
     assert hasattr(arch_guard, "ArchitectureViolation")
 
@@ -600,7 +600,7 @@ def test_go_adapter_instantiation():
 @pytest.mark.smoke
 def test_architecture_guard_with_real_project(project_root):
     """Verify ArchitectureGuard works on real project."""
-    from arch_guard.arch_guard import detect_language
+    from shared.arch_guard.arch_guard import detect_language
 
     detected = detect_language(project_root)
     if detected != "go":
