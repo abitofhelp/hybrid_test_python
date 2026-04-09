@@ -19,9 +19,22 @@ from pathlib import Path
 
 import pytest
 
-# Add scripts directory to Python path for importing modules under test
-PROJECT_ROOT = Path(__file__).parent.parent.parent
-SCRIPTS_DIR = PROJECT_ROOT / "scripts"
+# Find project root by walking upward to a directory containing Makefile.
+# This is robust regardless of submodule mount depth.
+def _find_project_root() -> Path:
+    current = Path(__file__).resolve().parent
+    for _ in range(10):
+        if (current / "Makefile").is_file() and (current / "src").is_dir():
+            return current
+        parent = current.parent
+        if parent == current:
+            break
+        current = parent
+    # Fallback: best guess from known mount pattern (test/scripts/python/shared/)
+    return Path(__file__).resolve().parent.parent.parent.parent
+
+PROJECT_ROOT = _find_project_root()
+SCRIPTS_DIR = PROJECT_ROOT / "scripts" / "python"
 # Add scripts dir for arch_guard package (unified multi-language version)
 sys.path.insert(0, str(SCRIPTS_DIR))
 
